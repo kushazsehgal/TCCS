@@ -4,11 +4,12 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///DATA.db'
-app.config['SQLALCHEMY_BINDS'] = {
-    'manager': 'sqlite:///manager.db',
-    'employee': 'sqlite:///employee.db',
-    'truck': 'sqlite:///truck.db',
-}
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://bpbrpvzttqqlrt:95623fb6a7f594efa00b98589f623d826d4f24eaaf271d5450a99f765f605979@ec2-18-214-35-70.compute-1.amazonaws.com:5432/d5vpcdqgvhjpht'
+# app.config['SQLALCHEMY_BINDS'] = {
+#     'manager': 'sqlite:///manager.db',
+#     'employee': 'sqlite:///employee.db',
+#     'truck': 'sqlite:///truck.db',
+# }
 
 # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
