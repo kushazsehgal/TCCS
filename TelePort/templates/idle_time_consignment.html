@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}
+Average Consignment Delivery Time
+{% endblock %}
+{% block content %}
+<h2>Average Consignment Delivery Time</h2>
+<table class="table table-hover table-dark">
+    <thead class = "thead-dark">
+        <tr>
+            
+            <th scope="col">Average Days</th>
+            <th scope="col">Average Hours</th>
+            <th scope="col">Average Minutes</th>
+            <th scope="col">Average Seconds</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{ datedic.day }}</td>
+            <td>{{datedic.hour}}</td>
+            <td>{{datedic.minute}}</td>
+            <td>{{datedic.second}}</td>
+            
+            
+        </tr>
+    </tbody>
+</table>
+<div class = "container" style = "margin-left:25%">
+<h2>Average Time Over Different Branches</h2>
+    <img  src="{{ url_for('static',filename='images/new_plot.png') }}" alt="">
+</div>
+{% endblock %}
+
+                                        
