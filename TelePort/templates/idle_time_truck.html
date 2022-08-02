@@ -25,10 +25,27 @@ Truck Waiting Time
         </tr>
     </tbody>
 </table>
-<div class = "container" style = "margin-left:25%">
-<h2>Average Time Over Different Truck IDs</h2>
-    <img  src="{{ url_for('static',filename='images/new_plot2.png') }}" alt="">
-</div>
+<h3>Truck Idle Time Statistics</h2>
+    <table class="table table-hover table-dark">
+        <thead class = "thead-dark">
+            <tr>
+                <!-- Your Columns HERE -->
+                <th scope="col">TruckID</th>
+                <th scope="col">Consignment Count</th>
+                <th scope="col">Average Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dic in time_list %}
+                <tr>
+                    <td>{{dic.ID}}</td>
+                    <td>{{dic.count}}</td>
+                    <td>{{dic.minute}} minutes,{{dic.second}} seconds </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
 {% endblock %}
 
                                         

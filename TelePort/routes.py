@@ -435,6 +435,7 @@ def idle_waiting_time_consignment():
         idle_waiting_time += (c.deliveryDate - c.purchaseDate).total_seconds()
     branchID = []
     avgTime = []
+    consignments_count = []
     for b in Office.query.all():
         consignmentS = Consignment.query.filter_by(status = "delivered", destinationOfficeID = b.officeID).all()
         idle_waiting_timE = 0
@@ -443,21 +444,22 @@ def idle_waiting_time_consignment():
         if len(consignmentS) > 0:
             branchID.append(b.officeID)
             avgTime.append(idle_waiting_timE/len(consignmentS))
-    fig = px.bar(x=branchID, y=avgTime,color_discrete_sequence =['red']*len(avgTime))
-    fig.update_layout(dict(
-  title='Branch Id vs Avg Consignment Delivery Time',
-  xaxis=dict(
-    title=dict(
-      text='Branch Id'
-    )
-  ),
-  yaxis=dict(
-    title=dict(
-      text='Average Time'
-    )
-  )
-))
-    fig.write_image("./Teleport/static/images/new_plot.png")
+            consignments_count.append(len(consignmentS))
+#     fig = px.bar(x=branchID, y=avgTime,color_discrete_sequence =['red']*len(avgTime))
+#     fig.update_layout(dict(
+#   title='Branch Id vs Avg Consignment Delivery Time',
+#   xaxis=dict(
+#     title=dict(
+#       text='Branch Id'
+#     )
+#   ),
+#   yaxis=dict(
+#     title=dict(
+#       text='Average Time'
+#     )
+#   )
+# ))
+#     fig.write_image("./Teleport/static/images/new_plot.png")
     
     print(idle_waiting_time)
     datedic = {}
@@ -469,9 +471,21 @@ def idle_waiting_time_consignment():
     datedic["hour"] = (idle_waiting_time//(60*60))%24
     datedic["minute"] = (idle_waiting_time//60)%60
     datedic["second"] = idle_waiting_time%60
-    
+    time_list= []
+    for time in avgTime:
+        dic = {}
+        dic["year"] = time//(365*24*60*60)
+        dic["month"] = (time//(30*24*60*60))%12
+        dic["day"] =   (time//(24*60*60))%30
+        dic["hour"] = (time//(60*60))%24
+        dic["minute"] = (time//60)%60
+        dic["second"] = time%60
+        time_list.append(dic)
+    for i in range(len(time_list)):
+        time_list[i]["ID"] = branchID[i]
+        time_list[i]["count"] = consignments_count[i]
     # idle_waiting_time /= len(consignments)
-    return render_template('idle_time_consignment.html',datedic = datedic)
+    return render_template('idle_time_consignment.html',datedic = datedic,time_list= time_list)
 
 @app.route('/idle_truck_waiting_time', methods=["GET", "POST"])
 def idle_truck_waiting_time():
@@ -479,30 +493,32 @@ def idle_truck_waiting_time():
     total_consignments = 0
     idle_waiting_time = 0
     truckS = []
+    truckS_consignments = []
     avgTime = []
     for t in trucks:
         if (t.numConsignments) > 0:
             truckS.append(t.truckID)
             avgTime.append(t.waitingTime/t.numConsignments)
+            truckS_consignments.append(t.numConsignments)
         idle_waiting_time += t.waitingTime
         total_consignments += t.numConsignments
         
     # print(idle_waiting_time)
-    fig = px.bar(x=truckS, y=avgTime,color_discrete_sequence =['red']*len(avgTime))
-    fig.update_layout(dict(
-  title='Truck Id vs Avg Truck Idle Time',
-  xaxis=dict(
-    title=dict(
-      text='Truck Id'
-    )
-  ),
-  yaxis=dict(
-    title=dict(
-      text='Average Time'
-    )
-  )
-))
-    fig.write_image("./Teleport/static/images/new_plot2.png")
+#     fig = px.bar(x=truckS, y=avgTime,color_discrete_sequence =['red']*len(avgTime))
+#     fig.update_layout(dict(
+#   title='Truck Id vs Avg Truck Idle Time',
+#   xaxis=dict(
+#     title=dict(
+#       text='Truck Id'
+#     )
+#   ),
+#   yaxis=dict(
+#     title=dict(
+#       text='Average Time'
+#     )
+#   )
+# ))
+    # fig.write_image("./Teleport/static/images/new_plot2.png")
     datedic = {}
     idle_waiting_time //= total_consignments
     datedic["year"] = idle_waiting_time//(365*24*60*60)
@@ -511,6 +527,19 @@ def idle_truck_waiting_time():
     datedic["hour"] = (idle_waiting_time//(60*60))%24
     datedic["minute"] = (idle_waiting_time//60)%60
     datedic["second"] = idle_waiting_time%60
-    
+    time_list= []
+    for time in avgTime:
+        dic = {}
+        dic["year"] = time//(365*24*60*60)
+        dic["month"] = (time//(30*24*60*60))%12
+        dic["day"] =   (time//(24*60*60))%30
+        dic["hour"] = (time//(60*60))%24
+        dic["minute"] = (time//60)%60
+        dic["second"] = time%60
+        time_list.append(dic)
+    for i in range(len(time_list)):
+        # time_list[i]["AvgTime"] = avgTime[i]
+        time_list[i]["ID"] = truckS[i]
+        time_list[i]["count"] = truckS_consignments[i]
     # idle_waiting_time /= len(consignments)
-    return render_template('idle_time_truck.html',datedic = datedic)
+    return render_template('idle_time_truck.html',datedic = datedic,time_list = time_list)
