@@ -39,7 +39,7 @@ Backend
 
 2.  [Hardik Soni](https://github.com/iamhardikat11)
 
-3.  Shivam Raj
+3.  [Shivam Raj](https://github.com/Shivam751)
 
 ## Screenshots
 1.  ![HomePage](./ScreenShots/HomePage.PNG)
