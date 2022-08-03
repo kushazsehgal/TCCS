@@ -37,9 +37,11 @@ Backend
 ## Development Team
 1.  [Kushaz Sehgal](https://github.com/kushazsehgal)
 
-2.  [Hardik Soni](https://github.com/iamhardikat11)
+2.  [Shivam Raj](https://github.com/Shivam751)
 
-3.  [Shivam Raj](https://github.com/Shivam751)
+<!-- 3.  [Hardik Soni](https://github.com/iamhardikat11) -->
+
+
 
 ## Screenshots
 1.  ![HomePage](./ScreenShots/HomePage.PNG)
